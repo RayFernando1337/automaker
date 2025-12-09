@@ -61,5 +61,15 @@
     "startedAt": "2025-12-09T22:09:13.684Z",
     "imagePaths": [],
     "skipTests": true
+  },
+  {
+    "id": "feature-1765319491258-x933j6kbq",
+    "category": "Core",
+    "description": "When running new feature in skip automated testing once its got finished its moved to waiting approval for us to manual test it / follow up prompt. Once we are satisfied we can click commit button so ai agent can commit it work this is only hapening in this scenerio because if we have unchecked the skip automated testing its do it automaticly and commit already. But the issue is when its going to commit we move it to in progress state where we can use stop button and if user use that button its moved to backlog column and. that kinda break what we are doing becase we have no longer even abbility to move it back to waiting approval or to run commit button / follow up again so if user use manual one and stop the commit i want it to be again moved back to waiting approval state / column",
+    "steps": [],
+    "status": "verified",
+    "startedAt": "2025-12-09T22:31:41.946Z",
+    "imagePaths": [],
+    "skipTests": true
   }
 ]

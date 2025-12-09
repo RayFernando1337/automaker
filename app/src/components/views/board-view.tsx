@@ -877,10 +877,23 @@ export function BoardView() {
   const handleForceStopFeature = async (feature: Feature) => {
     try {
       await autoMode.stopFeature(feature.id);
-      // Move the feature back to backlog status after stopping
-      moveFeature(feature.id, "backlog");
+
+      // Determine where to move the feature after stopping:
+      // - If it's a skipTests feature that was in waiting_approval (i.e., during commit operation),
+      //   move it back to waiting_approval so user can try commit again or do follow-up
+      // - Otherwise, move to backlog
+      const targetStatus = feature.skipTests && feature.status === "waiting_approval"
+        ? "waiting_approval"
+        : "backlog";
+
+      if (targetStatus !== feature.status) {
+        moveFeature(feature.id, targetStatus);
+      }
+
       toast.success("Agent stopped", {
-        description: `Stopped working on: ${feature.description.slice(0, 50)}${feature.description.length > 50 ? "..." : ""}`,
+        description: targetStatus === "waiting_approval"
+          ? `Stopped commit - returned to waiting approval: ${feature.description.slice(0, 50)}${feature.description.length > 50 ? "..." : ""}`
+          : `Stopped working on: ${feature.description.slice(0, 50)}${feature.description.length > 50 ? "..." : ""}`,
       });
     } catch (error) {
       console.error("[Board] Error stopping feature:", error);
